@@ -30,7 +30,7 @@ routes.delete("/carrito/:idCarrito", auth, Carrito.borrarProducto);
 
 
 //---------------------------------usuarios------------------------------
-routes.post('/crear-cuenta',  usuariosController.registrarUsuario)
+routes.post('/registrar',  usuariosController.registrarUsuario)
 
 routes.post('/login', usuariosController.autenticarUsuario)
 

@@ -10,6 +10,7 @@ import Ofertas from "./componentes/productos/Ofertas";
 import Producto from "./componentes/productos/Producto";
 import Carrito from "./componentes/layout/Carrito";
 import Login from "./componentes/login/Login";
+import Registro from "./componentes/login/Registro";
 import  { MContext }  from "./context/MContext";
 
 
@@ -24,6 +25,7 @@ function App() {
         <Routes>
   {/* Ruta de autenticación e */}
   <Route path="/login" element={<Login />} />
+    <Route path="/registrar" element={<Registro />} />
 
   {/* Rutas protegidas */}
   <Route 

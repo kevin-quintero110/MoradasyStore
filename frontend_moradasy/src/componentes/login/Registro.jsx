@@ -69,7 +69,7 @@ export default function Login() {
 
 
       <div className="contenedor-formulario m-5">
-              <h2 className='h1-principal'>Iniciar Sesión</h2>
+              <h2 className='h1-principal'>Registro</h2>
         <form onSubmit={iniciarSesion}>
           <div className="campo">
             <label htmlFor='email' >Email</label>
