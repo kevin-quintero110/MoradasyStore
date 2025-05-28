@@ -8,6 +8,9 @@ const auth = (req, res, next) => {
         throw error;
     }
 
+    if (req.usuario.rol !== 'admin') {
+    return res.status(403).json({ mensaje: 'Acceso denegado' });
+}
     const token = authHeader.split(' ')[1];
     let revisarToken;
     try {

@@ -6,6 +6,7 @@ const routes = Router();
 
 //middle para proteger las rutas
 import auth from '../middlewares/auth.js';
+import verificarAdmin from '../middlewares/verificarAdmin.js';
 
 
 
@@ -15,9 +16,9 @@ import auth from '../middlewares/auth.js';
 // Mantengo las rutas de productos igual que estaban
 routes.get("/productos",  Productos.mostrarProductos);
 routes.get("/productos/:idProducto",  Productos.mostrarProducto);
-routes.post("/productos", auth, Productos.subirArchivo, Productos.nuevoProducto);
-routes.put("/productos/:idProducto", auth, Productos.subirArchivo, Productos.actualizarProductos);
-routes.delete("/productos/:idProducto", auth, Productos.borrarProducto);
+routes.post("/productos", verificarAdmin, Productos.subirArchivo, Productos.nuevoProducto);
+routes.put("/productos/:idProducto", verificarAdmin, Productos.subirArchivo, Productos.actualizarProductos);
+routes.delete("/productos/:idProducto", verificarAdmin, Productos.borrarProducto);
 
 // ----------------------------- CARRITO -----------------------------
  

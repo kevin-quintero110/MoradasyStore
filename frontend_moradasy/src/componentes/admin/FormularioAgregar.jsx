@@ -38,14 +38,18 @@ function FormularioAgregar() {
     formData.append("categoria", producto.categoria);
 
     try {
-      await clienteAxios.post("/productos", formData);
-       Swal.fire({
-              position: "center",
-              icon: "success",
-              title: "Agregado Exitosamente!!!",
-              showConfirmButton: false,
-              timer: 1500
-            });
+      await clienteAxios.post("/productos", formData, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+      });
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Agregado Exitosamente!!!",
+        showConfirmButton: false,
+        timer: 1500
+      });
       navigate("/admin", { replace: true });
     } catch (error) {
       console.log(error);

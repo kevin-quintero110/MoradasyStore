@@ -3,12 +3,11 @@ const Schema = mongoose.Schema;
 
 
 const usuariosSchema = new Schema({
-    email:{
+    email: {
         type: String,
         unique: true,
         lowercase: true,
         trim: true,
-
     },
     nombre: {
         type: String,
@@ -17,6 +16,18 @@ const usuariosSchema = new Schema({
     password: {
         type: String,
         required: true
+    },
+    direccion: {
+        type: String,
+        lowercase: true
+    },
+    contacto: {
+        type: String,
+    },
+    rol: {
+        type: String,
+        enum: ['usuario', 'admin'],
+        default: 'usuario'
     }
 })
 

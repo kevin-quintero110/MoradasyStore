@@ -3,6 +3,7 @@ import Swal from 'sweetalert2';
 import clienteAxios from '../../config/axios';
 import { useNavigate } from 'react-router-dom';
 import { MContext }  from '../../context/MContext';
+import { jwtDecode } from 'jwt-decode';
 
 export default function Login() {
   const [, guardarAuth] = useContext(MContext);
@@ -17,9 +18,11 @@ export default function Login() {
 
       if (token) {
         localStorage.setItem('token', token);
+        const rol = jwtDecode(token).rol;
         guardarAuth({
           token,
           auth: true,
+          rol
         });
 
         Swal.fire({
@@ -31,7 +34,14 @@ export default function Login() {
         });
 
         // Redirigir después de login
-        navigate('/', { replace: true });
+        // Redirigir según el rol
+        setTimeout(() => {
+          if (rol === 'admin') {
+            navigate('/admin', { replace: true });
+          } else {
+            navigate('/', { replace: true });
+          }
+        }, 1500);
       }
     } catch (error) {
       //console.log(error);
@@ -74,7 +84,7 @@ export default function Login() {
           <div className="campo">
             <label htmlFor='email' >Email</label>
             <input
-              type="text"
+              type="email"
               name="email"
               id='email'
               placeholder="Email"
@@ -86,9 +96,9 @@ export default function Login() {
           </div>
           
           <div className="campo form-group row">
-              <label htmlFor="inputPassword" className="col-sm-8 col-form-label">Password</label>
+              <label htmlFor="password" className="col-sm-8 col-form-label">Password</label>
             <div className="col-sm-23">
-              <input type="password" className="form-control"  id="password" placeholder="Password" onChange={leerDatos}/>
+              <input type="password" className="form-control" id="password" name="password" placeholder="Password" onChange={leerDatos}/>
             </div>
           </div>
 

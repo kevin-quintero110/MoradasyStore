@@ -4,10 +4,9 @@ import clienteAxios from "../../config/axios";
 import Swal from 'sweetalert2'
 
 function FormularioEditar() {
-  const { id } = useParams(); // Obtén el ID del producto desde la URL
+  const { id } = useParams();
   const navigate = useNavigate();
 
-  // Estado para el producto
   const [producto, guardarProducto] = useState({
     nombre: "",
     precio: "",
@@ -16,23 +15,20 @@ function FormularioEditar() {
     categoria: "",
   });
 
-  // Estado para la imagen (archivo)
   const [archivo, guardarArchivo] = useState("");
 
-  // Obtener datos del producto al cargar el componente
   useEffect(() => {
     const consultarApi = async () => {
       try {
         const { data } = await clienteAxios.get(`/productos/${id}`);
-        guardarProducto(data); // Actualiza el estado con los datos del producto
+        guardarProducto(data);
       } catch (error) {
         console.error("Error al consultar el producto:", error);
       }
     };
     consultarApi();
-  }, [id]); // `id` como dependencia
+  }, [id]);
 
-  // Actualizar el estado del producto
   const actualizarState = (e) => {
     guardarProducto({
       ...producto,
@@ -40,28 +36,28 @@ function FormularioEditar() {
     });
   };
 
-  // Leer la imagen seleccionada
   const leerArchivo = (e) => {
     guardarArchivo(e.target.files[0]);
   };
 
-  // Editar el producto
   const editarProducto = async (e) => {
     e.preventDefault();
 
-    // Crear el objeto FormData para enviar los datos
     const formData = new FormData();
     formData.append("nombre", producto.nombre);
     formData.append("precio", producto.precio);
-    formData.append("imagen", archivo); // Agregar imagen solo si se seleccionó
+    formData.append("imagen", archivo);
     formData.append("oferta", producto.oferta);
     formData.append("cantidad", producto.cantidad);
     formData.append("categoria", producto.categoria);
 
     try {
-      // Hacer la petición PUT para actualizar el producto
-      await clienteAxios.put(`/productos/${id}`, formData);
-      
+      await clienteAxios.put(`/productos/${id}`, formData, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+      });
+
       Swal.fire({
         position: "center",
         icon: "success",
@@ -70,7 +66,7 @@ function FormularioEditar() {
         timer: 1500
       });
 
-      navigate("/admin", { replace: true }); // Redirigir después de la edición
+      navigate("/admin", { replace: true });
     } catch (error) {
       console.error("Error al editar el producto:", error);
     }
@@ -113,7 +109,6 @@ function FormularioEditar() {
           {/* Imagen */}
           <div className="form-group mb-3">
             <label>Imagen:</label>
-            {console.log(producto.imagen)}
             <img src={`http://localhost:3000/uploads/${producto.imagen}`} alt="imagen producto"  className='imagen-icono-producto'/>
             <input
               className="form-control"

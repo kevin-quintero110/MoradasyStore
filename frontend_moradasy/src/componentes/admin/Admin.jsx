@@ -15,11 +15,16 @@ function Admin() {
       }
     };
     consultarApi();
-  }, [productos]);
+    // Solo se ejecuta una vez al montar
+  }, []);
 
   const borrarProducto = async (id) => {
     try {
-      await clienteAxios.delete(`/productos/${id}`);
+      await clienteAxios.delete(`/productos/${id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+      });
       setProductos(productos.filter(producto => producto._id !== id));
     } catch (error) {
       console.error("Error al borrar el producto:", error);

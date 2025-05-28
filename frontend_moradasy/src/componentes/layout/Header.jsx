@@ -20,8 +20,6 @@ const Header = () => {
     // Redireccionar
     navigate('/login', { replace: true });
   };
-
-  console.log("Estado de auth:", auth);
   return (
     <nav className="navbar navbar-expand-lg color-especial">
       <div className="container-fluid">

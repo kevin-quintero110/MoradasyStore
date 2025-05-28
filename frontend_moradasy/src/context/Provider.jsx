@@ -1,31 +1,50 @@
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { MContext } from './MContext'; // ✅ Importa el contexto separado
+import { MContext } from './MContext';
+import { jwtDecode } from 'jwt-decode';
 
-// Crear el proveedor de contexto
 export const Provider = ({ children }) => {
-  const [auth, guardarAuth] = useState({
-    token: localStorage.getItem('token'),
-    auth: !!localStorage.getItem('token'),
+  const [auth, guardarAuth] = useState(() => {
+    const token = localStorage.getItem('token');
+    let rol = null;
+    if (token) {
+      try {
+        rol = jwtDecode(token).rol;
+      } catch {
+        // error al decodificar el token
+      }
+    }
+    return {
+      token,
+      auth: !!token,
+      rol,
+    };
   });
 
   useEffect(() => {
-    if (localStorage.getItem('token')) {
+    const token = localStorage.getItem('token');
+    let rol = null;
+    if (token) {
+      try {
+        rol = jwtDecode(token).rol;
+      } catch {
+        // error al decodificar el token
+      }
       guardarAuth({
-        token: localStorage.getItem('token'),
+        token,
         auth: true,
+        rol,
       });
     }
   }, []);
 
   return (
     <MContext.Provider value={[auth, guardarAuth]}>
-      {children} {/* ✅ Ahora ya está separado correctamente */}
+      {children}
     </MContext.Provider>
   );
 };
 
-// Validación de `children` con PropTypes
 Provider.propTypes = {
   children: PropTypes.node.isRequired,
 };
