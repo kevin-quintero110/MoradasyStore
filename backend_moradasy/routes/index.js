@@ -2,6 +2,7 @@ import { Router } from "express";
 import Productos from "../controllers/productosControllers.js";
 import Carrito from "../controllers/carritoControllers.js"; 
 import usuariosController from '../controllers/usuariosController.js';
+import Usuarios from '../models/Usuarios.js'; // Asegúrate de que la ruta sea correcta
 const routes = Router();
 
 //middle para proteger las rutas
@@ -34,5 +35,15 @@ routes.delete("/carrito/:idCarrito", auth, Carrito.borrarProducto);
 routes.post('/registrar',  usuariosController.registrarUsuario)
 
 routes.post('/login', usuariosController.autenticarUsuario)
+
+routes.get('/usuarios/:id', auth, async (req, res) => {
+  try {
+    const usuario = await Usuarios.findById(req.params.id).select('-password');
+    if (!usuario) return res.status(404).json({ mensaje: 'Usuario no encontrado' });
+    res.json(usuario);
+  } catch (error) {
+    res.status(500).json({ mensaje: 'Error al obtener usuario' });
+  }
+});
 
 export default routes;

@@ -13,6 +13,7 @@ import Registro from "./componentes/login/Registro";
 import  { MContext }  from "./context/MContext";
 import RutaAdmin from "./context/RutaAdmin";
 import Admin from "./componentes/admin/Admin";
+import MiCuenta from "./componentes/layout/MiCuenta";
 
 
 function App() {
@@ -26,7 +27,7 @@ function App() {
         <Routes>
   {/* Ruta de autenticación e */}
   <Route path="/login" element={<Login />} />
-    <Route path="/registrar" element={<Registro />} />
+  <Route path="/registrar" element={<Registro />} />
 
   {/* Rutas protegidas */}
   <Route path="/admin" element={
@@ -46,6 +47,19 @@ function App() {
     path="/" 
     element={auth.auth || localStorage.getItem("token") ? <Productos /> : <Navigate to="/login" />} 
   />
+    <Route 
+      path="/nuevo/pedido/:id" 
+      element={auth.auth || localStorage.getItem("token") ? <Producto /> : <Navigate to="/login" />} 
+    />
+    <Route 
+      path="/carrito" 
+      element={auth.auth || localStorage.getItem("token") ? <Carrito /> : <Navigate to="/login" />} 
+    />
+    <Route 
+      path="/mi-cuenta" 
+      element= {auth.auth || localStorage.getItem("token") ? <MiCuenta /> : <Navigate to="/login" />} 
+    />
+    {/* Rutas publicas */}
   <Route 
     path="/productos" 
     element= {<Productos/>} 
@@ -54,15 +68,6 @@ function App() {
     path="/ofertas" 
     element={<Ofertas />} 
   />
-  <Route 
-    path="/nuevo/pedido/:id" 
-    element={auth.auth || localStorage.getItem("token") ? <Producto /> : <Navigate to="/login" />} 
-  />
-  <Route 
-    path="/carrito" 
-    element={auth.auth || localStorage.getItem("token") ? <Carrito /> : <Navigate to="/login" />} 
-  />
-
 
    {/* Ruta para manejar cualquier ruta no definida */}
    <Route path="*" element={<Navigate to="/login" />} />

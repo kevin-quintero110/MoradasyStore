@@ -1,26 +1,17 @@
 import jwt from 'jsonwebtoken';
 
 const auth = (req, res, next) => {
-    const authHeader = req.get('Authorization');
-    if (!authHeader) {
-        const error = new Error('No autenticado, no hay JWT');
-        error.statusCode = 401;
-        throw error;
-    }
+  const token = req.header('Authorization')?.replace('Bearer ', '');
+  if (!token) return res.status(401).json({ mensaje: 'No hay token, autorización denegada' });
 
-    if (req.usuario.rol !== 'admin') {
-    return res.status(403).json({ mensaje: 'Acceso denegado' });
-}
-    const token = authHeader.split(' ')[1];
-    let revisarToken;
-    try {
-        revisarToken = jwt.verify(token, 'LLAVESECRETA');
-    } catch (error) {
-        error.statusCode = 500;
-        throw error;
-    }
-
+  try {
+    const datos = jwt.verify(token, 'LLAVESECRETA');
+    if (!datos || !datos.id) return res.status(401).json({ mensaje: 'Token inválido' });
+    req.usuario = datos;
     next();
+  } catch (error) {
+    res.status(401).json({ mensaje: 'Token no válido' });
+  }
 };
 
 export default auth;
