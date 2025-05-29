@@ -7,15 +7,14 @@ function Carrito() {
   const [productos, setProductos] = useState([]); // Detalles de cada producto
   const [subtotal, setSubtotal] = useState(0); // Subtotal de todos los productos
 
-
   // Obtener los IDs de los productos en el carrito
   useEffect(() => {
     const consultarCarrito = async () => {
       try {
-        const respuesta = await clienteAxios.get(`/carrito`,{
+        const respuesta = await clienteAxios.get(`/carrito`, {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`
-          }
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
         });
         setDetalles(respuesta.data);
       } catch (error) {
@@ -31,11 +30,14 @@ function Carrito() {
       try {
         const detallesProductos = await Promise.all(
           detalles.map(async (detalle) => {
-            const respuesta = await clienteAxios.get(`/productos/${detalle.idProducto}`,{
+            const respuesta = await clienteAxios.get(
+              `/productos/${detalle.idProducto}`,
+              {
                 headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`
-      }
-            });
+                  Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+              }
+            );
             console.log("Producto Detalle:", { ...respuesta.data, ...detalle }); // Depuración de la respuesta
             return { ...respuesta.data, ...detalle }; // Combina los detalles del producto con los detalles del carrito
           })
@@ -53,7 +55,10 @@ function Carrito() {
 
   // Función para formatear precios
   const formatearPrecio = (precio) => {
-    return precio.toLocaleString("es-CO", { style: "currency", currency: "COP" });
+    return precio.toLocaleString("es-CO", {
+      style: "currency",
+      currency: "COP",
+    });
   };
 
   // Calcular subtotal
@@ -63,7 +68,8 @@ function Carrito() {
       productos.forEach((producto) => {
         const precioFinal = !producto.oferta
           ? producto.precio * producto.cantidad
-          : (producto.precio - (producto.precio * producto.oferta) / 100) * producto.cantidad;
+          : (producto.precio - (producto.precio * producto.oferta) / 100) *
+            producto.cantidad;
         total += precioFinal;
       });
       setSubtotal(total);
@@ -74,7 +80,20 @@ function Carrito() {
     }
   }, [productos]);
 
-  
+  const eliminarDelCarrito = async (idDetalle) => {
+    try {
+      await clienteAxios.delete(`/carrito/${idDetalle}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      // Actualiza el estado quitando el producto eliminado
+      setProductos(productos.filter((producto) => producto._id !== idDetalle));
+      setDetalles(detalles.filter((detalle) => detalle._id !== idDetalle));
+    } catch (error) {
+      console.error("Error al eliminar el producto del carrito:", error);
+    }
+  };
 
   return (
     <div className="productos-container">
@@ -82,9 +101,8 @@ function Carrito() {
         productos.map((producto, index) => (
           <div className="card mt-3" key={index}>
             {/* Al hacer clic en el título redirige al formulario de edición usando idDetalle del carrito */}
-            <h1
-            >
-              {producto.nombre}  ({producto.color} {producto.cantidad})
+            <h1>
+              {producto.nombre} ({producto.color} {producto.cantidad})
             </h1>
 
             <img
@@ -97,26 +115,42 @@ function Carrito() {
               {formatearPrecio(
                 !producto.oferta
                   ? producto.precio * producto.cantidad
-                  : (producto.precio - (producto.precio * producto.oferta) / 100) * producto.cantidad
+                  : (producto.precio - (producto.precio * producto.oferta) / 100) *
+                    producto.cantidad
               )}
             </p>
             <p>{producto.idProducto}</p>
+            <button
+              className="btn btn-danger"
+              onClick={() => eliminarDelCarrito(producto._id)}
+            >
+              Eliminar
+            </button>
+           
           </div>
+          
+          
         ))
       ) : (
-        <div className="text-center">
-          <div className="spinner-border text-info" role="status">
-            <span className="visually-hidden">Loading...</span>
+        <>
+          <h1 className="text-center mt-5">
+            No hay productos en el carrito...
+          </h1>
+          <div className="text-center">
+            <div className="spinner-border text-info" role="status">
+              <span className="visually-hidden">Loading...</span>
+            </div>
+            <p>Cargando...</p>
           </div>
-          <p>Cargando...</p>
-        </div>
+        </>
       )}
-      <div className="subtotal">
+           <div className="subtotal">
         <h3>Total: {formatearPrecio(subtotal)}</h3>
         <button type="submit" className="btn btn-dark btn-block">
           Pagar
         </button>
       </div>
+      
     </div>
   );
 }
