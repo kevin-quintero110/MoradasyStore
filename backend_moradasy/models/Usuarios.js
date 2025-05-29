@@ -28,7 +28,11 @@ const usuariosSchema = new Schema({
         type: String,
         enum: ['usuario', 'admin'],
         default: 'usuario'
-    }
+    },
+    pedidos: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Pedidos'
+    }],
 })
 
 

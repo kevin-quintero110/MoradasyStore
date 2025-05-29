@@ -12,7 +12,11 @@ function Carrito() {
   useEffect(() => {
     const consultarCarrito = async () => {
       try {
-        const respuesta = await clienteAxios.get(`/carrito`);
+        const respuesta = await clienteAxios.get(`/carrito`,{
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+          }
+        });
         setDetalles(respuesta.data);
       } catch (error) {
         console.error("Error al consultar el carrito:", error);
@@ -27,7 +31,11 @@ function Carrito() {
       try {
         const detallesProductos = await Promise.all(
           detalles.map(async (detalle) => {
-            const respuesta = await clienteAxios.get(`/productos/${detalle.idProducto}`);
+            const respuesta = await clienteAxios.get(`/productos/${detalle.idProducto}`,{
+                headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+            });
             console.log("Producto Detalle:", { ...respuesta.data, ...detalle }); // Depuración de la respuesta
             return { ...respuesta.data, ...detalle }; // Combina los detalles del producto con los detalles del carrito
           })
@@ -76,7 +84,7 @@ function Carrito() {
             {/* Al hacer clic en el título redirige al formulario de edición usando idDetalle del carrito */}
             <h1
             >
-              {producto.nombre} ({producto.color} {producto.cantidad})
+              {producto.nombre}  ({producto.color} {producto.cantidad})
             </h1>
 
             <img
@@ -92,6 +100,7 @@ function Carrito() {
                   : (producto.precio - (producto.precio * producto.oferta) / 100) * producto.cantidad
               )}
             </p>
+            <p>{producto.idProducto}</p>
           </div>
         ))
       ) : (

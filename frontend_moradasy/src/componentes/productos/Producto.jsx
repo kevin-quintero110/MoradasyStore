@@ -56,7 +56,11 @@ function Producto() {
     };
 
     try {
-      const respuesta = await clienteAxios.post("/carrito", data);
+      const respuesta = await clienteAxios.post("/carrito", data,{
+        headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+      });
       Swal.fire({
         position: "center",
         icon: "success",
