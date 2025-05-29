@@ -14,6 +14,7 @@ import  { MContext }  from "./context/MContext";
 import RutaAdmin from "./context/RutaAdmin";
 import Admin from "./componentes/admin/Admin";
 import MiCuenta from "./componentes/layout/MiCuenta";
+import EditarMiCuenta from "./componentes/layout/EditarMiCuenta";
 
 
 function App() {
@@ -58,6 +59,10 @@ function App() {
     <Route 
       path="/mi-cuenta" 
       element= {auth.auth || localStorage.getItem("token") ? <MiCuenta /> : <Navigate to="/login" />} 
+    />
+    <Route 
+      path="/EditarMiCuenta/:id" 
+      element= {auth.auth || localStorage.getItem("token") ? <EditarMiCuenta /> : <Navigate to="/login" />} 
     />
     {/* Rutas publicas */}
   <Route 

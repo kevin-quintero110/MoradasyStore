@@ -46,4 +46,6 @@ routes.get('/usuarios/:id', auth, async (req, res) => {
   }
 });
 
+routes.put("/usuarios/:id", auth, usuariosController.actualizarUsuario);
+
 export default routes;

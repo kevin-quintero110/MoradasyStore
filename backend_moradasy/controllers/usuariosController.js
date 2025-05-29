@@ -62,10 +62,38 @@ const autenticarUsuario = async  (req, res, next) => {
 
     }
 }
+
+const actualizarUsuario = async (req, res) => {
+    const { id } = req.params;
+    const datosActualizados = { ...req.body };
+
+    // Si hay password, hashearla antes de actualizar
+    if (datosActualizados.password) {
+        datosActualizados.password = await bcrypt.hash(datosActualizados.password, 12);
+    }
+
+    try {
+        const usuario = await Usuarios.findByIdAndUpdate(
+            id,
+            { $set: datosActualizados },
+            { new: true, runValidators: true }
+        ).select('-password');
+
+        if (!usuario) {
+            return res.status(404).json({ mensaje: 'Usuario no encontrado' });
+        }
+
+        res.json({ mensaje: 'Usuario actualizado correctamente', usuario });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ mensaje: 'Error al actualizar el usuario' });
+    }
+};
 // Exportar los controladores
 const usuariosControllers = {
     registrarUsuario,
-    autenticarUsuario
+    autenticarUsuario,
+    actualizarUsuario
   };
   
   export default usuariosControllers;

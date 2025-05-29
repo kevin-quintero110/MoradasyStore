@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
 import clienteAxios from "../../config/axios";
+import { Link } from 'react-router-dom';
 
 function MiCuenta() {
   const [usuario, setUsuario] = useState({});
@@ -40,11 +41,18 @@ function MiCuenta() {
           <li><strong>Nombre:</strong> {usuario.nombre}</li>
           <li><strong>Dirección:</strong> {usuario.direccion}</li>
           <li><strong>Contacto:</strong> {usuario.contacto}</li>
-          <li><strong>Rol:</strong> {usuario.rol}</li>
         </ul>
       ) : (
         <p>No hay datos de usuario.</p>
       )}
+
+      <Link to={`/EditarMiCuenta/${usuario._id}`} >Editar datos</Link>
+
+
+      <div>
+        <h2>Pedidos Realizados</h2>
+        
+      </div>
     </div>
   );
 }
