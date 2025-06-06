@@ -5,6 +5,8 @@ build/
 
 # Archivos de entorno y configuración
 .env
+backend_moradasy/variables.env
+variables.env
 *.local
 
 # Logs y caché

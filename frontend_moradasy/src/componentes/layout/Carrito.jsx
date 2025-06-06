@@ -95,6 +95,34 @@ function Carrito() {
     }
   };
 
+  const handlePagar = () => {
+    const handler = window.ePayco.checkout.configure({
+      key: import.meta.env.VITE_EPAYCO_PUBLIC_KEY, // Usar la variable de entorno
+      test: true, // Cambia a false en producción
+    });
+
+    const data = {
+      // Obligatorios
+      name: "Compra en Moradasy",
+      description: "Pago de productos en carrito",
+      invoice: "ORD-" + Date.now(),
+      currency: "cop",
+      amount: subtotal.toFixed(0), // ePayco espera string y sin decimales para COP
+      tax_base: "0",
+      tax: "0",
+      country: "co",
+      lang: "es",
+
+      // Opcionales
+      external: "false",
+      response: "https://tusitio.com/respuesta-epayco", // URL de respuesta
+      confirmation: "https://tusitio.com/confirmacion-epayco", // URL de confirmación
+      email_billing: "cliente@correo.com", // Puedes poner el email del usuario logueado
+    };
+
+    handler.open(data);
+  };
+
   return (
     <div className="productos-container">
       {productos?.length > 0 ? (
@@ -126,31 +154,28 @@ function Carrito() {
             >
               Eliminar
             </button>
-           
           </div>
-          
-          
         ))
       ) : (
         <>
           <h1 className="text-center mt-5">
-            No hay productos en el carrito...
+            Esta vacio el carrito de compras...
           </h1>
-          <div className="text-center">
-            <div className="spinner-border text-info" role="status">
-              <span className="visually-hidden">Loading...</span>
-            </div>
-            <p>Cargando...</p>
-          </div>
         </>
       )}
-           <div className="subtotal">
-        <h3>Total: {formatearPrecio(subtotal)}</h3>
-        <button type="submit" className="btn btn-dark btn-block">
-          Pagar
-        </button>
-      </div>
-      
+      {/* Mostrar subtotal y botón de pago solo si hay productos */}
+      {productos?.length > 0 && (
+        <div className="subtotal mt-4">
+          <h3>Total: {formatearPrecio(subtotal)}</h3>
+          <button
+            type="button"
+            className="btn btn-dark btn-block"
+            onClick={handlePagar}
+          >
+            Pagar
+          </button>
+        </div>
+      )}
     </div>
   );
 }
