@@ -41,7 +41,7 @@ function Carrousel() {
           <div className="carousel-item active">
             <div className="d-flex justify-content-center align-items-center" style={{ height: "300px" }}>
               <img
-                src="http://localhost:3000/uploads/1NnnmKgXJ.jpeg"
+                src="http://localhost:3000/uploads/Banner1.jpg"
                 className="d-block"
                 alt="camiseta 1"
               />
