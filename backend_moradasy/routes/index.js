@@ -21,6 +21,7 @@ routes.post("/productos", verificarAdmin, Productos.subirArchivo, Productos.nuev
 routes.put("/productos/:idProducto", verificarAdmin, Productos.subirArchivo, Productos.actualizarProductos);
 routes.delete("/productos/:idProducto", verificarAdmin, Productos.borrarProducto);
 
+
 // ----------------------------- CARRITO -----------------------------
  
 routes.get("/carrito", auth, Carrito.mostrarProductos);

@@ -61,13 +61,20 @@ const nuevoProducto = async (req, res) => {
 };
 
 // Mostrar todos los productos
-const mostrarProductos = async (req, res, next) => {
+const mostrarProductos = async (req, res) => {
   try {
-    const productos = await Productos.find({});
+    const { busqueda } = req.query;
+    let productos;
+    if (busqueda) {
+      productos = await Productos.find({
+        nombre: { $regex: busqueda, $options: 'i' }
+      });
+    } else {
+      productos = await Productos.find();
+    }
     res.json(productos);
   } catch (error) {
-    console.log(error);
-    
+    res.status(500).json({ mensaje: 'Error al obtener productos' });
   }
 };
 
@@ -120,6 +127,9 @@ const borrarProducto = async (req, res, next) => {
     
   }
 };
+
+
+
 
 
 // Exportar los controladores

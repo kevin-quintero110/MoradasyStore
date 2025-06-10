@@ -1,22 +1,29 @@
 import  { useState, useEffect } from "react";
 import clienteAxios from "../../config/axios";
 import Carrousel from "./Carrousel";
+import { useLocation } from "react-router-dom";
 
 function Productos() {
   const [productos, setProductos] = useState([]);
+const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const busqueda = params.get("busqueda");
 
   // Consulta a la API
   useEffect(() => {
     const consultarApi = async () => {
       try {
-        const productosConsulta = await clienteAxios.get(`/productos`);
+        const url = busqueda
+          ? `/productos?busqueda=${encodeURIComponent(busqueda)}`
+          : `/productos`;
+        const productosConsulta = await clienteAxios.get(url);
         setProductos(productosConsulta.data);
       } catch (error) {
         console.error("Error al consultar el producto:", error);
       }
     };
     consultarApi();
-  }, []);
+  }, [busqueda]);
 
   const formatearPrecio = (precio) => {
     return precio.toLocaleString("es-CO", { style: "currency", currency: "COP" });
@@ -24,8 +31,6 @@ function Productos() {
 
   return (
     <>
-  
-
    <section>
     <Carrousel/>
    </section>

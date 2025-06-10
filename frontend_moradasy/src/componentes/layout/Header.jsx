@@ -1,13 +1,13 @@
-import  { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { MContext } from '../../context/MContext'; // ✅ Usa llaves porque es un export nombrado
 import PropTypes from 'prop-types';
 import logo from "../../assets/logo.png";
 import { useNavigate } from 'react-router-dom';
 
 const Header = () => {
-
   let navigate = useNavigate();
   const [auth, guardarAuth] = useContext(MContext);
+  const [busqueda, setBusqueda] = useState("");
 
   const cerrarSesion = () => {
     guardarAuth({
@@ -20,6 +20,12 @@ const Header = () => {
     // Redireccionar
     navigate('/login', { replace: true });
   };
+
+  const handleBuscar = (e) => {
+  e.preventDefault();
+  // Redirige a la página de productos con el query de búsqueda
+  navigate(`/productos?busqueda=${encodeURIComponent(busqueda)}`);
+};
   return (
     <nav className="navbar navbar-expand-lg color-especial">
       <div className="container-fluid">
@@ -74,11 +80,13 @@ const Header = () => {
           </ul>
 
           {/* Barra de búsqueda */}
-          <form className="d-flex" role="search">
+          <form className="d-flex" role="search" onSubmit={handleBuscar}>
             <input
               className="form-control me-2"
               type="search"
               aria-label="Search"
+              value={busqueda}
+              onChange={e => setBusqueda(e.target.value)}
             />
             <button className="btn btn-light" type="submit">
               <i className="bi bi-search"></i>
