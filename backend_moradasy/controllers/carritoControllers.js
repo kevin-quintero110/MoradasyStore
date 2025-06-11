@@ -3,12 +3,18 @@ import mongoose from "mongoose";
 
 // Agregar o actualizar un producto al carrito
 const nuevoProducto = async (req, res) => {
-  
-  console.log(req.body);
-  const { idCliente, idProducto, nombreProducto, precioProducto, color, talla, cantidad } = req.body;
+  // El idCliente SIEMPRE se toma del token, no del body
+  const idCliente = req.usuario.id;
+  console.log("ID Cliente:", idCliente);
+  console.log("Body del request:", req.body);
+  const { idProducto, nombreProducto, precioProducto, color, talla, cantidad } = req.body;
 
+  // Validación de campos obligatorios
+  if (!idProducto || !color || !talla) {
+    return res.status(400).json({ mensaje: "Faltan datos obligatorios para agregar el producto al carrito" });
+  }
 
-    try {
+  try {
     // Buscar el carrito del usuario
     let carrito = await Carrito.findOne({ idCliente });
 
@@ -23,7 +29,6 @@ const nuevoProducto = async (req, res) => {
     };
 
     if (carrito) {
-      // Buscar si el producto ya está en el carrito
       const idx = carrito.productos.findIndex(
         p =>
           p.idProducto === idProducto &&
@@ -39,19 +44,14 @@ const nuevoProducto = async (req, res) => {
         carrito.productos.push(nuevoProd);
       }
 
-
       await carrito.save();
       return res.status(200).json({ mensaje: "Producto actualizado/agregado en el carrito", carrito });
     } else {
-      
+      // Crear un nuevo carrito para el usuario
       const nuevoCarrito = new Carrito({
         idCliente,
         productos: [nuevoProd]
       });
-      console.log({
-  idCliente,
-  productos: [nuevoProd]
-});
 
       await nuevoCarrito.save();
       return res.status(201).json({ mensaje: "Carrito creado y producto agregado", carrito: nuevoCarrito });
@@ -62,18 +62,19 @@ const nuevoProducto = async (req, res) => {
   }
 };
 
-// Mostrar todos los productos del carrito
+// Mostrar todos los productos del carrito del usuario autenticado
 const mostrarProductos = async (req, res) => {
   try {
-    const productos = await Carrito.find({});
-    res.json(productos);
+    const idCliente = req.usuario.id;
+    const carrito = await Carrito.findOne({ idCliente });
+    res.json(carrito ? [carrito] : []);
   } catch (error) {
     console.log(error);
     res.status(500).json({ mensaje: "Hubo un error al obtener los productos del carrito" });
   }
 };
 
-// Mostrar un producto del carrito por ID
+// Mostrar un producto del carrito por ID de carrito
 const mostrarProducto = async (req, res) => {
   try {
     const producto = await Carrito.findById(req.params.idCarrito);
@@ -107,14 +108,15 @@ const actualizarProducto = async (req, res) => {
   }
 };
 
-// Eliminar un producto específico del array productos en el carrito
+// Eliminar un producto específico del array productos en el carrito del usuario autenticado
 const borrarProducto = async (req, res) => {
   try {
-    const idDetalle = req.params.idDetalle;
-
+    const idCliente = req.params.idCliente; // string
+    const idDetalle = req.params.idDetalle; // string
+    console.log("idCliente:", idCliente, "idDetalle:", idDetalle);
     const carritoActualizado = await Carrito.updateOne(
-      { "productos._id": new mongoose.Types(ObjectId(idDetalle)) },
-      { $pull: { productos: { _id: new mongoose.Types(ObjectId(idDetalle)) } } }
+      { idCliente, "productos._id": idDetalle },
+      { $pull: { productos: { _id: idDetalle } } }
     );
 
     if (carritoActualizado.modifiedCount === 0) {

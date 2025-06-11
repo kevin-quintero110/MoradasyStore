@@ -4,7 +4,7 @@ import clienteAxios from "../../config/axios";
 import Swal from "sweetalert2";
 
 function Producto() {
-  const { id, idcliente } = useParams();
+  const { id } = useParams();
   const navigate = useNavigate();
 
   // Estado para el producto
@@ -17,7 +17,6 @@ function Producto() {
 
   // Estado para el pedido
   const [pedido, guardarPedido] = useState({
-    idCliente: idcliente,
     idProducto: id,
     color: "",
     talla: "",
@@ -50,7 +49,6 @@ function Producto() {
     e.preventDefault();
 
     const data = {
-  idCliente: pedido.idCliente,
   idProducto: pedido.idProducto,
   nombreProducto: producto.nombre,      
   precioProducto: producto.precio,      
@@ -58,13 +56,15 @@ function Producto() {
   talla: pedido.talla,
   cantidad: parseInt(pedido.cantidad, 10),
 };
-console.log(data.idCliente, data.idProducto, data.nombreProducto, data.precioProducto, data.color, data.talla, data.cantidad);
+console.log( data);
 
     try {
       const respuesta = await clienteAxios.post("/carrito", data,{
         headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`
       }
+      
+        
       });
       Swal.fire({
         position: "center",
@@ -74,7 +74,7 @@ console.log(data.idCliente, data.idProducto, data.nombreProducto, data.precioPro
         timer: 1500,
       });
 
-      navigate("/carrito", { replace: true });
+      navigate(`/carrito`, { replace: true });
     } catch (error) {
       console.error("Error al realizar el pedido del producto:", error.response || error.message);
     }

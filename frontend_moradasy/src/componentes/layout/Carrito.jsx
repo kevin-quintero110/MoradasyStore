@@ -1,12 +1,11 @@
 import { useState, useEffect } from "react";
-
 import clienteAxios from "../../config/axios";
-
+import { jwtDecode } from "jwt-decode";
 function Carrito() {
   const [detalles, setDetalles] = useState([]); // Productos en el carrito
   const [productos, setProductos] = useState([]); // Detalles de cada producto
   const [subtotal, setSubtotal] = useState(0); // Subtotal de todos los productos
-
+  const [ usuario, setUsuario] = useState("");
   // Obtener los IDs de los productos en el carrito
   useEffect(() => {
     const consultarCarrito = async () => {
@@ -83,13 +82,14 @@ function Carrito() {
   }, [productos]);
 
   const eliminarDelCarrito = async (idDetalle) => {
+    idDetalle = (idDetalle || "").trim();
+    console.log("que es esto (limpio):", idDetalle);
     try {
-      await clienteAxios.delete(`/carrito/${idDetalle}`, {
+      await clienteAxios.delete(`/carrito/${usuario}/${idDetalle}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
-      // Actualiza el estado quitando el producto eliminado
       setProductos(productos.filter((producto) => producto._id !== idDetalle));
       setDetalles(detalles.filter((detalle) => detalle._id !== idDetalle));
     } catch (error) {
@@ -125,6 +125,19 @@ function Carrito() {
     handler.open(data);
   };
 
+
+  useEffect(() => {
+        const token = localStorage.getItem("token");
+        if (token) {
+          try {
+            const datos = jwtDecode(token);
+            setUsuario(datos.id);
+          } catch (err) {
+            console.log("Error decodificando token:", err);
+          }
+        }
+      }, []);
+
   return (
     <div className="productos-container">
       {productos?.length > 0 ? (
@@ -152,7 +165,12 @@ function Carrito() {
             <p>{producto.idProducto}</p>
             <button
               className="btn btn-danger"
-              onClick={() => eliminarDelCarrito(producto._id)}
+              onClick={() => {
+  const idLimpio = (producto._id || "").trim();
+  console.log("Producto a eliminar (limpio):", idLimpio);
+  eliminarDelCarrito(idLimpio);
+}}
+              
             >
               Eliminar
             </button>

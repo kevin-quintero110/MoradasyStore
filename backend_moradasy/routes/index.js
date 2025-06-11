@@ -28,7 +28,7 @@ routes.get("/carrito", auth, Carrito.mostrarProductos);
 routes.get("/carrito/:idCarrito", auth, Carrito.mostrarProducto);
 routes.post("/carrito", auth, Carrito.nuevoProducto);
 routes.put("/carrito/:idCarrito", auth, Carrito.actualizarProducto);
-routes.delete("/carrito/:idCarrito", auth, Carrito.borrarProducto);
+routes.delete("/carrito/:idCliente/:idDetalle", auth, Carrito.borrarProducto);
 
 
 
