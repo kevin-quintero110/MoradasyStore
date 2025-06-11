@@ -49,7 +49,7 @@ function App() {
     element={auth.auth || localStorage.getItem("token") ? <Productos /> : <Navigate to="/login" />} 
   />
     <Route 
-      path="/nuevo/pedido/:id" 
+      path="/nuevo/pedido/:id/:idcliente" 
       element={auth.auth || localStorage.getItem("token") ? <Producto /> : <Navigate to="/login" />} 
     />
     <Route 

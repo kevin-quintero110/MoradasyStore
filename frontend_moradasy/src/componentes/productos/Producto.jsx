@@ -4,7 +4,7 @@ import clienteAxios from "../../config/axios";
 import Swal from "sweetalert2";
 
 function Producto() {
-  const { id } = useParams();
+  const { id, idcliente } = useParams();
   const navigate = useNavigate();
 
   // Estado para el producto
@@ -17,6 +17,7 @@ function Producto() {
 
   // Estado para el pedido
   const [pedido, guardarPedido] = useState({
+    idCliente: idcliente,
     idProducto: id,
     color: "",
     talla: "",
@@ -49,11 +50,15 @@ function Producto() {
     e.preventDefault();
 
     const data = {
-      idProducto: pedido.idProducto,
-      color: pedido.color,
-      talla: pedido.talla,
-      cantidad: parseInt(pedido.cantidad, 10),
-    };
+  idCliente: pedido.idCliente,
+  idProducto: pedido.idProducto,
+  nombreProducto: producto.nombre,      
+  precioProducto: producto.precio,      
+  color: pedido.color,
+  talla: pedido.talla,
+  cantidad: parseInt(pedido.cantidad, 10),
+};
+console.log(data.idCliente, data.idProducto, data.nombreProducto, data.precioProducto, data.color, data.talla, data.cantidad);
 
     try {
       const respuesta = await clienteAxios.post("/carrito", data,{

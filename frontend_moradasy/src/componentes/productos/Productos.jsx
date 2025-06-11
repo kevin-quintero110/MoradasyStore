@@ -2,10 +2,12 @@ import  { useState, useEffect } from "react";
 import clienteAxios from "../../config/axios";
 import Carrousel from "./Carrousel";
 import { useLocation } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 
 function Productos() {
   const [productos, setProductos] = useState([]);
-const location = useLocation();
+  const [ usuario, setUsuario] = useState({});
+  const location = useLocation();
   const params = new URLSearchParams(location.search);
   const busqueda = params.get("busqueda");
 
@@ -28,6 +30,29 @@ const location = useLocation();
   const formatearPrecio = (precio) => {
     return precio.toLocaleString("es-CO", { style: "currency", currency: "COP" });
   };
+
+  
+    useEffect(() => {
+      const token = localStorage.getItem("token");
+      if (token) {
+        try {
+          const datos = jwtDecode(token);
+          console.log("Token decodificado:", datos); // <-- depuración
+          clienteAxios.get(`/usuarios/${datos.id}`, {
+            headers: {
+              Authorization: `Bearer ${token}`
+              
+            }
+          })
+          .then(res => {
+            setUsuario(res.data);
+          })
+        } catch (err) {
+          console.log("Error decodificando token:", err);
+          setUsuario({});
+        }
+      }
+    }, []);
 
   return (
     <>
@@ -74,7 +99,7 @@ const location = useLocation();
                 </li>
               </ul>
               <div className="card-body">
-                <a href={`/nuevo/pedido/${producto._id}`} className="card-link btn btn-dark">
+                <a href={`/nuevo/pedido/${producto._id}/${usuario._id}`} className="card-link btn btn-dark">
                   Realizar Pedido
                 </a>
               </div>

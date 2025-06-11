@@ -16,7 +16,9 @@ function Carrito() {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         });
-        setDetalles(respuesta.data);
+        setDetalles(
+          respuesta.data.length > 0 ? respuesta.data[0].productos : []
+        );
       } catch (error) {
         console.error("Error al consultar el carrito:", error);
       }
@@ -130,7 +132,7 @@ function Carrito() {
           <div className="card mt-3" key={index}>
             {/* Al hacer clic en el título redirige al formulario de edición usando idDetalle del carrito */}
             <h1>
-              {producto.nombre} ({producto.color} {producto.cantidad})
+              {producto.nombre} ({producto.color} {producto.cantidad} {producto._id})
             </h1>
 
             <img

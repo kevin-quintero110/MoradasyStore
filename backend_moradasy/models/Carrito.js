@@ -1,32 +1,23 @@
 import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
-// Esquema de carrito
-const carritoSchema = new Schema({
-  idProducto: {
-    type: mongoose.Schema.Types.ObjectId, 
-    ref: "Producto", 
-    required: true,  
-  },
-  color: {
-    type: String,
-    required: true, 
-  },
-  talla: {
-    type: String,
-    required: true, 
-  },
-  cantidad: {
-    type: Number,
-    default: 1,
-    min: 1, 
-  },
+const productoSchema = new Schema({
+  idProducto: { type: String, required: true },
+  nombreProducto: { type: String, required: true },
+  precioProducto: { type: Number, required: true },
+  cantidadProducto: { type: Number, required: true },
+  color: { type: String, required: true },
+  talla: { type: String, required: true },
 });
 
-// Índice único para evitar duplicados (idProducto + color + talla)
-carritoSchema.index({ idProducto: 1, color: 1, talla: 1 }, { unique: true });
+const carritoSchema = new Schema({
+  idCliente: { type: String, required: true },
+  productos: [productoSchema]
+});
 
-// Modelo de carrito
+// Índice único para evitar que un usuario tenga más de un carrito
+carritoSchema.index({ idCliente: 1 }, { unique: true });
+
 const Carrito = mongoose.model("Carrito", carritoSchema);
 
 export default Carrito;
