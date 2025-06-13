@@ -105,9 +105,12 @@ export default function Login() {
           <input type="submit" value="Iniciar Sesión" className="btn btn-primary mt-3" />
         </form>
         <h4>¿no tienes una cuenta? <a href="registrar">Registrate</a> </h4>
-      
+        
       </div>
-    </div>
-    
+   
+     
+
+
+     </div>
   );
 }
