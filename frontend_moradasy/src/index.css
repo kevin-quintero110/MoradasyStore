@@ -59,7 +59,7 @@ header{
 }
 
 .color-especial{
-  background-color:  rgb(52, 11, 68);
+  background-color:  rgb(52, 11, 68) !important;
   color: white;
 }
 
@@ -92,7 +92,7 @@ input{
 }
 
 .h1-principal{
-  color: rgb(100, 16, 133);
+  color: rgb(54, 6, 66);
   text-align: center;
   font-size: 30px;
   font-weight: 900;
@@ -104,8 +104,7 @@ input{
 
     background-color: rgb(255, 255, 255);
  
-        color: rgb(0, 0, 0);
-
+        color: rgb(38, 8, 78);
     border: solid 1px  rgb(94, 20, 121);
     outline: 0;
     margin: 0;
@@ -118,7 +117,7 @@ input{
 .btn-login:hover{
     transition: all 0.6s ease-in-out;
     width: 100%;
-     background-color: rgb(35, 8, 51);
+     background-color: rgb(4, 1, 5);
    color: rgb(247, 247, 247);
      border: solid 1px  rgb(52, 11, 68);
     box-shadow: 0 0 10px rgba(52, 11, 68, 0.5);
@@ -179,3 +178,5 @@ input{
 form{
     width: 100%;
 }
+
+

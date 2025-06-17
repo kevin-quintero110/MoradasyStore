@@ -1,8 +1,11 @@
 import { useState, useEffect } from "react";
 import clienteAxios from "../../config/axios";
+import { jwtDecode } from "jwt-decode";
 
 function Ofertas() {
   const [productosOferta, setProductosOferta] = useState([]);
+  
+  const [ usuario, setUsuario] = useState({});
 
   // Consulta a la API
   useEffect(() => {
@@ -21,52 +24,88 @@ function Ofertas() {
     return precio.toLocaleString("es-CO", { style: "currency", currency: "COP" });
   };
 
+  useEffect(() => {
+      const token = localStorage.getItem("token");
+      if (token) {
+        try {
+          const datos = jwtDecode(token);
+          console.log("Token decodificado:", datos); // <-- depuración
+          clienteAxios.get(`/usuarios/${datos.id}`, {
+            headers: {
+              Authorization: `Bearer ${token}`
+              
+            }
+          })
+          .then(res => {
+            setUsuario(res.data);
+          })
+        } catch (err) {
+          console.log("Error decodificando token:", err);
+          setUsuario({});
+        }
+      }
+    }, []);
+
   return (
     <>
-      <h1 className="h1-principal">¡OFERTAS DEL DIA!</h1>
+      <h1 className="h1-principal display-3">¡OFERTAS DEL DIA!</h1>
 
       {/* Productos */}
-      <div className="productos-container">
+      <div className="container mt-4">
+  <div className="row g-5">
         {productosOferta?.length > 0 ? (
-          productosOferta.map((producto) => {
+          productosOferta.map((producto, index) => {
             if (producto.oferta === 0) return null;
 
             return (
-              <div className="card mt-3" key={producto.id}>
-                <img
-                  src={`http://localhost:3000/uploads/${producto.imagen || "placeholder.jpg"}`}
-                  className="card-img-top"
-                  alt={producto.nombre || "Imagen no disponible"}
-                />
-                <div className="card-body">
-                  <h5 className="c-t">{producto.nombre}</h5>
-                </div>
-                <ul className="list-group list-group-flush">
+              <div className="col-lg-4 col-sm-6 col-md-6" key={index}>
+          <div className="card h-100 p-3 shadow-lg">
+            <img
+              src={`http://localhost:3000/uploads/${producto.imagen}`}
+              className="card-img-top"
+              alt="foto del producto"
+              style={{ height: "250px", objectFit: "cover" }}
+            />
+                <div className="card-body d-flex flex-column align-items-start">
+              <h5 className="c-t h1-principal mb-1">{producto.nombre}</h5>
+              <ul className="list-group list-group-flush w-100">
+                <li className="list-group-item border-0 d-flex justify-content-between align-items-center">
+                  {producto.oferta === 0 ? (
+                    <h2 className="  ">Precio: {formatearPrecio(producto.precio)}</h2>
+                  ) : (
+                    <b className="text-primary">
+                      Antes: {formatearPrecio(producto.precio)}
+                    </b>
+                  )}
+                </li>
+                {producto.oferta > 0 && (
                   <li className="list-group-item border-0">
-                      <b className="text-info">
-                        Antes: {formatearPrecio(producto.precio)}
-                      </b>
+                    <b>
+                      Ahora:{" "}
+                      {formatearPrecio(
+                        producto.precio - (producto.precio * producto.oferta) / 100
+                      )}
+                    </b>
                   </li>
-                    <li className="list-group-item border-0">
-                      <b>
-                        Ahora:{" "}
-                        {formatearPrecio(
-                          producto.precio - (producto.precio * producto.oferta) / 100
-                        )}
-                      </b>
-                    </li>
-                  <li className="list-group-item ">
-                    <h3 className="oferta bg-info text-white">
-                      -{producto.oferta}%
-                    </h3>
-                  </li>
-                </ul>
-                <div className="card-body">
-                <a href={`/nuevo/pedido/${producto._id}`} className="card-link btn btn-dark">
+                )}
+              </ul>
+                    {producto.oferta > 0 && (
+  <p className="oferta bg-primary p-1 rounded text-white mt-1 text-center w-100">
+    -{producto.oferta}%
+  </p>
+)}
+               {/* Botón siempre al fondo y ocupa todo el ancho */}
+              <div className="mt-auto w-100">
+                <a
+                  href={`/nuevo/pedido/${producto._id}/${usuario._id}`}
+                  className={` card-link btn btn-dark color-especial w-100${producto.oferta > 0 ? " mt-3" : ""}`}
+                >
                   Realizar Pedido
                 </a>
                 </div>
               </div>
+            </div>
+          </div>
             );
           })
         ) : (
@@ -77,6 +116,7 @@ function Ofertas() {
             <p>Cargando...</p>
           </div>
         )}
+      </div>
       </div>
     </>
   );
