@@ -67,11 +67,10 @@ const registrarUsuario = async (e) => {
 
   return (
     <div className='login'>
-      <div className="contenedor-formulario m-5">
-        <h2 className='h1-principal'>Registro</h2>
+      <div className="contenedor-login">
+        <h2 className='h1-principal mb-5'>Registro</h2>
         <form onSubmit={registrarUsuario}>
           <div className="campo">
-            <label htmlFor='email'>Email</label>
             <input
               type="email"
               name="email"
@@ -80,12 +79,11 @@ const registrarUsuario = async (e) => {
               required
               onChange={leerDatos}
               autoComplete='email'
-              className='form-control'
+              className=' mb-3 inputs-especiales'
               value={usuario.email}
             />
           </div>
           <div className="campo">
-            <label htmlFor='nombre'>Nombre</label>
             <input
               type="text"
               name="nombre"
@@ -93,12 +91,12 @@ const registrarUsuario = async (e) => {
               placeholder="Nombre"
               required
               onChange={leerDatos}
-              className='form-control'
+              className='mb-3 inputs-especiales'
               value={usuario.nombre}
             />
           </div>
           <div className="campo">
-            <label htmlFor='password'>Password</label>
+            
             <input
               type="password"
               name="password"
@@ -106,37 +104,35 @@ const registrarUsuario = async (e) => {
               placeholder="Password"
               required
               onChange={leerDatos}
-              className='form-control'
+              className='mb-3 inputs-especiales'
               value={usuario.password}
             />
           </div>
           <div className="campo">
-            <label htmlFor='direccion'>Dirección</label>
             <input
               type="text"
               name="direccion"
               id='direccion'
               placeholder="Dirección"
               onChange={leerDatos}
-              className='form-control'
+              className='mb-3 inputs-especiales'
               value={usuario.direccion}
             />
           </div>
           <div className="campo">
-            <label htmlFor='contacto'>Contacto</label>
             <input
               type="text"
               name="contacto"
               id='contacto'
               placeholder="Contacto"
               onChange={leerDatos}
-              className='form-control'
+              className='mb-3 inputs-especiales'
               value={usuario.contacto}
             />
           </div>
-          <input type="submit" value="Registrarse" className="btn btn-primary mt-3" />
+          <input type="submit" value="Registrarse" className="button btn-login" />
         </form>
-        <h4>¿Ya tienes una cuenta? <a href="/login">Inicia Sesión</a> </h4>
+        <h6>¿Ya tienes una cuenta? <a href="/login" className='a'>Inicia Sesión</a> </h6>
       </div>
     </div>
   );

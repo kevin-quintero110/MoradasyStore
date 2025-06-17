@@ -27,7 +27,8 @@ const Header = () => {
   navigate(`/productos?busqueda=${encodeURIComponent(busqueda)}`);
 };
   return (
-    <nav className="navbar navbar-expand-lg color-especial">
+    <header >
+    <nav className="navbar navbar-expand-lg color-especial ">
       <div className="container-fluid">
         {/* Botón de navegación para dispositivos móvilees */}
         <button
@@ -103,6 +104,7 @@ const Header = () => {
         </div>
       </div>
     </nav>
+    </header>
   );
 };
 

@@ -6,6 +6,7 @@ import { MContext }  from '../../context/MContext';
 import { jwtDecode } from 'jwt-decode';
 
 export default function Login() {
+  
   const [, guardarAuth] = useContext(MContext);
   let navigate = useNavigate();
   const [credenciales, guardarCredenciales] = useState({});
@@ -77,12 +78,10 @@ export default function Login() {
     
 <div className='login'>
 
-
-      <div className="contenedor-formulario m-5">
-              <h2 className='h1-principal'>Iniciar Sesión</h2>
+      <div className="contenedor-login">
+              <h2 className='h1-principal mb-5'>Ingresa a Moradasy Store</h2>
         <form onSubmit={iniciarSesion}>
           <div className="campo">
-            <label htmlFor='email' >Email</label>
             <input
               type="email"
               name="email"
@@ -91,20 +90,21 @@ export default function Login() {
               required
               onChange={leerDatos}
               autoComplete='email'
-              className='form-control'
+              className=' mb-3 inputs-especiales'
             />
           </div>
           
           <div className="campo form-group row">
-              <label htmlFor="password" className="col-sm-8 col-form-label">Password</label>
-            <div className="col-sm-23">
-              <input type="password" className="form-control" id="password" name="password" placeholder="Password" onChange={leerDatos}/>
+            <div className="">
+              <input type="password" className=" mb-3 inputs-especiales" id="password" name="password" placeholder="Password" onChange={leerDatos}/>
             </div>
           </div>
 
-          <input type="submit" value="Iniciar Sesión" className="btn btn-primary mt-3" />
+          <input type="submit" value="Iniciar Sesión" className="button btn-login" />
+          
+       
         </form>
-        <h4>¿no tienes una cuenta? <a href="registrar">Registrate</a> </h4>
+        <h6>¿no tienes una cuenta? <a href="registrar" className='a'>Registrate</a> </h6>
         
       </div>
    

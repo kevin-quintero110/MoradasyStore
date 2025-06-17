@@ -1,0 +1,181 @@
+
+
+html {
+  box-sizing: border-box;
+  font-family: sans-serif;
+  margin:0px;
+  width: 100%;
+  height: 100%;
+}
+
+*{
+    box-sizing: inherit;
+}
+.bona-nova-sc-regular {
+  font-family: "Bona Nova SC", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.bona-nova-sc-bold {
+  font-family: "Bona Nova SC", serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.bona-nova-sc-regular-italic {
+  font-family: "Bona Nova SC", serif;
+  font-weight: 400;
+  font-style: italic;
+}
+
+body, main {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #ffffff;
+  color: rgb(0, 0, 0);
+}
+
+header{
+  width: 100%;
+}
+
+ /* .caja-contenido{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+ } */
+
+.logo{
+    height: 100%;
+  width: 15%;
+  border-radius: 50%;
+}
+
+.color-especial{
+  background-color:  rgb(52, 11, 68);
+  color: white;
+}
+
+.color-especial a{
+  color: white;
+}
+
+.iconos-especiales{
+  font-size: 30px;
+}
+
+.iconos-especiales:hover{
+  cursor: pointer;
+  color: blueviolet;
+}
+
+
+.button {
+  background-color:  rgb(52, 11, 68);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 10px;
+}
+
+input{
+    margin: 20px;
+}
+
+.h1-principal{
+  color: rgb(100, 16, 133);
+  text-align: center;
+  font-size: 30px;
+  font-weight: 900;
+}
+
+
+.btn-login{
+    width: 100%;
+
+    background-color: rgb(255, 255, 255);
+ 
+        color: rgb(0, 0, 0);
+
+    border: solid 1px  rgb(94, 20, 121);
+    outline: 0;
+    margin: 0;
+    margin-bottom: 50px;
+    font-weight: 600;
+    
+    box-shadow: 0 0 10px rgba(52, 11, 68, 0.5);
+}
+
+.btn-login:hover{
+    transition: all 0.6s ease-in-out;
+    width: 100%;
+     background-color: rgb(35, 8, 51);
+   color: rgb(247, 247, 247);
+     border: solid 1px  rgb(52, 11, 68);
+    box-shadow: 0 0 10px rgba(52, 11, 68, 0.5);
+   
+}
+
+ .login{
+    width: 100%;
+    height:100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(255, 255, 255);
+}
+
+.a{
+    text-decoration: none;
+    color: rgb(52, 11, 68);
+    margin: 2px;
+}
+
+.inputs-especiales{
+     width: 100%;
+     padding: 10px;
+    background-color: rgb(255, 255, 255);
+    color: rgb(131, 7, 180);
+    border: none;
+    border-bottom: solid 1px  rgb(52, 11, 68);
+    outline: 0;
+    margin: 0;
+    border-radius: 5px;
+    box-shadow: 0 1px 2px rgba(52, 11, 68, 0.5);
+}
+
+
+
+.inputs-especiales:focus {
+    box-shadow: 0 0 10px 1px rgb(52, 11, 68);
+}   
+
+
+.contenedor-login{
+    min-width: 500px;
+    min-height: 450px;
+    padding: 0% 20px;
+    border-radius: 10px;
+    background-color: rgb(255, 255, 255);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    box-shadow: 0 5px 19px rgba(0, 0, 0, 0.5);
+
+}
+
+
+form{
+    width: 100%;
+}

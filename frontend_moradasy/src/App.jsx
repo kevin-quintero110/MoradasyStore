@@ -22,9 +22,9 @@ function App() {
 
   return (
     
-    <div className={`grid contenedor contenido-principal `}>
+    <>
       <Header />
-      <main className={`caja-contenido `}>
+      <main className={``}>
         <Routes>
   {/* Ruta de autenticación e */}
   <Route path="/login" element={<Login />} />
@@ -78,7 +78,7 @@ function App() {
    <Route path="*" element={<Navigate to="/login" />} />
 </Routes>
       </main>
-    </div>
+    </>
     
     
   );
