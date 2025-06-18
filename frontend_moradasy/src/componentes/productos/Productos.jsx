@@ -61,24 +61,28 @@ function Productos() {
    </section>
    
       {/* Productos */}
-      <div className="container mt-4">
+      <div className="container mt-4 ">
   <div className="row g-5">
     {productos?.length > 0 ? (
       productos.map((producto, index) => (
         <div className="col-lg-4 col-sm-6 col-md-6" key={index}>
-          <div className="card h-100 p-3 shadow-lg">
-            <img
-              src={`http://localhost:3000/uploads/${producto.imagen}`}
-              className="card-img-top"
-              alt="foto del producto"
-              style={{ height: "250px", objectFit: "cover" }}
-            />
-            <div className="card-body d-flex flex-column align-items-start">
-              <h5 className="c-t h1-principal mb-1">{producto.nombre}</h5>
+          <div className="card shadow-lg d-flex flex-column" style={{ height: "530px" }}>
+            {/* Imagen: 70% */}
+            <div style={{ height: "60%" }}>
+              <img
+                src={`http://localhost:3000/uploads/${producto.imagen}`}
+                className="card-img-top"
+                alt="foto del producto"
+                style={{ width: "100%", height: "90%", objectFit: "cover" }}
+              />
+            </div>
+            {/* Cuerpo: 30% */}
+            <div className="card-body d-flex flex-column align-items-start justify-content-end mt-2" style={{ height: "30%"}}>
+              <h5 className="p-principal">{producto.nombre}</h5>
               <ul className="list-group list-group-flush w-100">
-                <li className="list-group-item border-0 d-flex justify-content-between align-items-center">
+                <li className="list-group-item border-0 d-flex justify-content-between align-items-center p-0">
                   {producto.oferta === 0 ? (
-                    <b>Precio: {formatearPrecio(producto.precio)}</b>
+                    <b className="p-principal">PRECIO: {formatearPrecio(producto.precio)}</b>
                   ) : (
                     <b className="text-primary">
                       Antes: {formatearPrecio(producto.precio)}
@@ -86,7 +90,7 @@ function Productos() {
                   )}
                 </li>
                 {producto.oferta > 0 && (
-                  <li className="list-group-item border-0">
+                  <li className="list-group-item border-0 p-0">
                     <b>
                       Ahora:{" "}
                       {formatearPrecio(
@@ -96,18 +100,18 @@ function Productos() {
                   </li>
                 )}
               </ul>
-             {producto.oferta > 0 && (
-  <p className="oferta bg-primary p-1 rounded text-white mt-1 text-center w-100">
-    -{producto.oferta}%
-  </p>
-)}
-               {/* Botón siempre al fondo y ocupa todo el ancho */}
+              {producto.oferta > 0 && (
+                <p className="oferta bg-primary p-1 rounded text-white mt-1 text-center w-100">
+                  -{producto.oferta}%
+                </p>
+              )}
+              {/* Botón siempre al fondo y ocupa todo el ancho */}
               <div className="mt-auto w-100">
                 <a
                   href={`/nuevo/pedido/${producto._id}/${usuario._id}`}
-                  className={` card-link btn btn-dark color-especial w-100${producto.oferta > 0 ? " mt-3" : ""}`}
+                  className={`card-link btn-especial${producto.oferta > 0 ? " mt-3" : ""}`}
                 >
-                  Realizar Pedido
+                  REALIZAR PEDIDO
                 </a>
             </div>
           </div>

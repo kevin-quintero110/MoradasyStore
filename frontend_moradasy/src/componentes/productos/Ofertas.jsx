@@ -98,9 +98,9 @@ function Ofertas() {
               <div className="mt-auto w-100">
                 <a
                   href={`/nuevo/pedido/${producto._id}/${usuario._id}`}
-                  className={` card-link btn btn-dark color-especial w-100${producto.oferta > 0 ? " mt-3" : ""}`}
+                  className={`card-link btn-especial${producto.oferta > 0 ? " mt-3" : ""}`}
                 >
-                  Realizar Pedido
+                  REALIZAR PEDIDO
                 </a>
                 </div>
               </div>
