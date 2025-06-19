@@ -139,62 +139,80 @@ function Carrito() {
       }, []);
 
   return (
-    <div className="productos-container">
+    <div className="container py-4">
+      <h2 className="mb-4">Carrito de compras</h2>
       {productos?.length > 0 ? (
-        productos.map((producto, index) => (
-          <div className="card mt-3" key={index}>
-            {/* Al hacer clic en el título redirige al formulario de edición usando idDetalle del carrito */}
-            <h1>
-              {producto.nombre} ({producto.color} {producto.cantidad} {producto._id})
-            </h1>
-
-            <img
-              src={`http://localhost:3000/uploads/${producto.imagen}`}
-              alt={producto.nombre}
-              style={{ width: "100px", height: "100px" }}
-            />
-            <p>Talla: {producto.talla}</p>
-            <p>
-              {formatearPrecio(
-                !producto.oferta
-                  ? producto.precio * producto.cantidad
-                  : (producto.precio - (producto.precio * producto.oferta) / 100) *
-                    producto.cantidad
-              )}
-            </p>
-            <p>{producto.idProducto}</p>
+        <div className="table-responsive">
+          <table className="table align-middle">
+            <thead className="table-light">
+              <tr>
+                <th>Producto</th>
+                <th>Imagen</th>
+                <th>Talla</th>
+                <th>Cantidad</th>
+                <th>Color</th>
+                <th>Precio</th>
+                <th>Acción</th>
+              </tr>
+            </thead>
+            <tbody>
+              {productos.map((producto, index) => (
+                <tr key={index}>
+                  <td>
+                    <strong>{producto.nombre}</strong>
+                    <div className="text-muted small">{producto._id}</div>
+                  </td>
+                  <td>
+                    <img
+                      src={`http://localhost:3000/uploads/${producto.imagen}`}
+                      alt={producto.nombre}
+                      style={{ width: "70px", height: "70px", objectFit: "cover" }}
+                    />
+                  </td>
+                  <td>{producto.talla}</td>
+                  <td>{producto.cantidad}</td>
+                  <td>{producto.color}</td>
+                  <td>
+                     { console.log("Producto:", producto)}
+                    {formatearPrecio(
+                      !producto.oferta
+                        ? producto.precio * producto.cantidad
+                        : (producto.precio - (producto.precio * producto.oferta) / 100) *
+                          producto.cantidad
+                        
+                    )}
+                  </td>
+                  <td>
+                    <button
+                      className="btn btn-danger btn-sm"
+                      onClick={() => {
+                        const idLimpio = (producto._id || "").trim();
+                        eliminarDelCarrito(idLimpio);
+                      }}
+                    >
+                      Eliminar
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          {/* Subtotal y botón de pagar */}
+          <div className="d-flex flex-column flex-md-row justify-content-end align-items-center gap-3 mt-4">
+            <h3 className="mb-0">Total: {formatearPrecio(subtotal)}</h3>
             <button
-              className="btn btn-danger"
-              onClick={() => {
-  const idLimpio = (producto._id || "").trim();
-  console.log("Producto a eliminar (limpio):", idLimpio);
-  eliminarDelCarrito(idLimpio);
-}}
-              
+              type="button"
+              className="btn btn-dark btn-lg"
+              onClick={handlePagar}
             >
-              Eliminar
+              Pagar
             </button>
           </div>
-        ))
-      ) : (
-        <>
-          <h1 className="text-center mt-5">
-            Esta vacio el carrito de compras...
-          </h1>
-        </>
-      )}
-      {/* Mostrar subtotal y botón de pago solo si hay productos */}
-      {productos?.length > 0 && (
-        <div className="subtotal mt-4">
-          <h3>Total: {formatearPrecio(subtotal)}</h3>
-          <button
-            type="button"
-            className="btn btn-dark btn-block"
-            onClick={handlePagar}
-          >
-            Pagar
-          </button>
         </div>
+      ) : (
+        <h1 className="text-center mt-5">
+          Esta vacio el carrito de compras...
+        </h1>
       )}
     </div>
   );
