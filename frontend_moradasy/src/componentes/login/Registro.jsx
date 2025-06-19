@@ -69,7 +69,7 @@ const registrarUsuario = async (e) => {
     <div className='login'>
       <div className="contenedor-login">
         <h2 className='h1-principal mb-5'>Registro</h2>
-        <form onSubmit={registrarUsuario}>
+        <form className='form-login' onSubmit={registrarUsuario}>
           <div className="campo">
             <input
               type="email"

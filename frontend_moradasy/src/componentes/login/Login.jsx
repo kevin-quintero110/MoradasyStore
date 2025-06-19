@@ -80,7 +80,7 @@ export default function Login() {
 
       <div className="contenedor-login">
               <h2 className='h1-principal mb-5'>Ingresa a Moradasy Store</h2>
-        <form onSubmit={iniciarSesion}>
+        <form className='form-login' onSubmit={iniciarSesion}>
           <div className="campo">
             <input
               type="email"
