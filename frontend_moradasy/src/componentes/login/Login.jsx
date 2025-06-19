@@ -57,9 +57,9 @@ export default function Login() {
       }else{
         Swal.fire({
           icon: 'error',
-          title:  'Error inesperado',
+          title:  'Error inesperado en el servidor, intenta de nuevo',
           showConfirmButton: false,
-          timer: 1500,
+          timer: 2000,
         });
       }
 

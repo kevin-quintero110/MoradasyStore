@@ -30,37 +30,35 @@ const registrarUsuario = async (req, res) => {
     }
 }
 
-const autenticarUsuario = async  (req, res, next) => {
-    //buscar usuario
+const autenticarUsuario = async (req, res, next) => {
+  try {
     const { email, password } = req.body;
-    const usuario = await Usuarios.findOne({ email});
+    const usuario = await Usuarios.findOne({ email });
 
-    if(!usuario.email){
-        await res.status(401).json({mensaje: 'ese usuario no existe'})
-        next()
-    }else{
-
-        if(!bcrypt.compareSync(password, usuario.password)){
-            await res.status(401).json({mensaje: 'Password Incorrecto'})
-            next()
-        }else{
-            
-            const token = jwt.sign({
-                email : usuario.email,
-                nombre: usuario.nombre,
-                id : usuario._id,
-                rol: usuario.rol
-            }, 'LLAVESECRETA', {
-                expiresIn : '1h'
-            });
-
-            // retornar el token
-            res.json({ token });
-        }
-
-        
-
+    if (!usuario) {
+      return res.status(401).json({ mensaje: 'Ese usuario no existe, regístrate.' });
     }
+
+    if (!bcrypt.compareSync(password, usuario.password)) {
+      return res.status(401).json({ mensaje: 'Password Incorrecto' });
+    }
+
+    const token = jwt.sign(
+      {
+        email: usuario.email,
+        nombre: usuario.nombre,
+        id: usuario._id,
+        rol: usuario.rol,
+      },
+      'LLAVESECRETA',
+    //   { expiresIn: '1h' }
+    );
+
+    res.json({ token });
+  } catch (error) {
+    res.status(500).json({ mensaje: 'Error en el servidor' });
+    next(error);
+  }
 }
 
 const actualizarUsuario = async (req, res) => {
