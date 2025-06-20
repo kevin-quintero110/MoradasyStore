@@ -5,12 +5,13 @@ import clienteAxios from "../../config/axios";
 function MiCuenta() {
   const [usuario, setUsuario] = useState({});
 
+  // Efecto para obtener los datos del usuario al cargar el componente
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
       try {
         const datos = jwtDecode(token);
-        console.log("Token decodificado:", datos); // <-- depuración
+        // console.log("Token decodificado:", datos); // <-- depuración
         clienteAxios.get(`/usuarios/${datos.id}`, {
           headers: {
             Authorization: `Bearer ${token}`

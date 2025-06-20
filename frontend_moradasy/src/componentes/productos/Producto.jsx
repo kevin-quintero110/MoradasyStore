@@ -56,16 +56,13 @@ function Producto() {
   talla: pedido.talla,
   cantidad: parseInt(pedido.cantidad, 10),
 };
-console.log( data);
+// console.log( data);
 
     try {
       const respuesta = await clienteAxios.post("/carrito", data,{
         headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`
-      }
-      
-        
-      });
+      }});
       Swal.fire({
         position: "center",
         icon: "success",
@@ -73,17 +70,18 @@ console.log( data);
         showConfirmButton: false,
         timer: 1500,
       });
-
       navigate(`/carrito`, { replace: true });
     } catch (error) {
       console.error("Error al realizar el pedido del producto:", error.response || error.message);
     }
   };
 
+  // Función para formatear el precio
   const formatearPrecio = (precio) => {
     return precio.toLocaleString("es-CO", { style: "currency", currency: "COP" });
   };
 
+  // Validar si el producto está completo para agregar al carrito
   const validarProducto = () => !pedido.color || !pedido.talla || pedido.cantidad <= 0;
 
   return (

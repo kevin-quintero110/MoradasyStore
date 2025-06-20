@@ -8,6 +8,7 @@ const Header = () => {
   const [auth, guardarAuth] = useContext(MContext);
   const [busqueda, setBusqueda] = useState("");
 
+  // Función para cerrar sesión
   const cerrarSesion = (e) => {
     e.preventDefault();
     guardarAuth({
@@ -18,6 +19,7 @@ const Header = () => {
     navigate('/login', { replace: true });
   };
 
+    // Función para manejar la búsqueda
   const handleBuscar = (e) => {
     e.preventDefault();
     navigate(`/productos?busqueda=${encodeURIComponent(busqueda)}`);

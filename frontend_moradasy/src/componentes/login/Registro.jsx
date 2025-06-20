@@ -15,11 +15,12 @@ export default function Registro() {
     contacto: ''
   });
 
+  // Función para registrar un nuevo usuario
 const registrarUsuario = async (e) => {
   e.preventDefault();
   try {
     const respuesta = await clienteAxios.post('/registrar', usuario);
-    console.log(respuesta.data); // <-- Agrega esto para depurar
+    // console.log(respuesta.data); // <--  depurar
     const { token } = respuesta.data;
 
     if (token) {
@@ -58,6 +59,7 @@ const registrarUsuario = async (e) => {
   }
 };
 
+// Función para manejar los cambios en los campos del formulario
   const leerDatos = (e) => {
     setUsuario({
       ...usuario,

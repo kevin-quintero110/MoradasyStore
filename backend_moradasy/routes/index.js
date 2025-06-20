@@ -2,7 +2,7 @@ import { Router } from "express";
 import Productos from "../controllers/productosControllers.js";
 import Carrito from "../controllers/carritoControllers.js"; 
 import usuariosController from '../controllers/usuariosController.js';
-import Usuarios from '../models/Usuarios.js'; // Asegúrate de que la ruta sea correcta
+import Usuarios from '../models/Usuarios.js'; 
 const routes = Router();
 
 //middle para proteger las rutas

@@ -11,6 +11,7 @@ export default function Login() {
   let navigate = useNavigate();
   const [credenciales, guardarCredenciales] = useState({});
 
+  // Función para iniciar sesión
   const iniciarSesion = async (e) => {
     e.preventDefault();
     try {
@@ -67,6 +68,7 @@ export default function Login() {
     }
   };
 
+  // Función para leer los datos del formulario
   const leerDatos = (e) => {
     guardarCredenciales({
       ...credenciales,
@@ -107,10 +109,6 @@ export default function Login() {
         <h6>¿no tienes una cuenta? <a href="registrar" className='a'>Registrate</a> </h6>
         
       </div>
-   
-     
-
-
      </div>
   );
 }

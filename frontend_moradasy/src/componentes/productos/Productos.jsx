@@ -27,23 +27,23 @@ function Productos() {
     consultarApi();
   }, [busqueda]);
 
+  // Formatear el precio a formato colombiano
   const formatearPrecio = (precio) => {
     return precio.toLocaleString("es-CO", { style: "currency", currency: "COP" });
   };
 
-  
+  // Obtener el usuario desde el token
     useEffect(() => {
       const token = localStorage.getItem("token");
       if (token) {
         try {
           const datos = jwtDecode(token);
-          console.log("Token decodificado:", datos); // <-- depuración
+          // console.log("Token decodificado:", datos); // <-- depuración
           clienteAxios.get(`/usuarios/${datos.id}`, {
             headers: {
               Authorization: `Bearer ${token}`
               
-            }
-          })
+            }})
           .then(res => {
             setUsuario(res.data);
           })
@@ -61,13 +61,12 @@ function Productos() {
    </section>
    
       {/* Productos */}
-      <div className="container mt-4 ">
+  <div className="container mt-4 ">
   <div className="row g-5">
     {productos?.length > 0 ? (
       productos.map((producto, index) => (
         <div className="col-lg-4 col-sm-6 col-md-6" key={index}>
           <div className="card shadow-lg d-flex flex-column" style={{ height: "530px" }}>
-            {/* Imagen: 70% */}
             <div style={{ height: "60%" }}>
               <img
                 src={`http://localhost:3000/uploads/${producto.imagen}`}
@@ -76,7 +75,6 @@ function Productos() {
                 style={{ width: "100%", height: "90%", objectFit: "cover" }}
               />
             </div>
-            {/* Cuerpo: 30% */}
             <div className="card-body d-flex flex-column align-items-start justify-content-end mt-2" style={{ height: "30%"}}>
               <h5 className="p-principal">{producto.nombre}</h5>
               <ul className="list-group list-group-flush w-100">
@@ -105,7 +103,6 @@ function Productos() {
                   -{producto.oferta}%
                 </p>
               )}
-              {/* Botón siempre al fondo y ocupa todo el ancho */}
               <div className="mt-auto w-100">
                 <a
                   href={`/nuevo/pedido/${producto._id}/${usuario._id}`}

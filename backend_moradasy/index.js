@@ -20,7 +20,7 @@ const port = 3000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Carpeta pública para "uploads", debe estar ANTES de habilitar CORS
+// Carpeta publica para "uploads", debe estar ANTES de habilitar CORS
 app.use('/uploads', express.static('uploads'));
 
 app.use(cors())

@@ -1,11 +1,15 @@
 import { useState, useEffect } from "react";
 import clienteAxios from "../../config/axios";
 import { jwtDecode } from "jwt-decode";
+
+
 function Carrito() {
   const [detalles, setDetalles] = useState([]); // Productos en el carrito
   const [productos, setProductos] = useState([]); // Detalles de cada producto
   const [subtotal, setSubtotal] = useState(0); // Subtotal de todos los productos
   const [ usuario, setUsuario] = useState("");
+
+
   // Obtener los IDs de los productos en el carrito
   useEffect(() => {
     const consultarCarrito = async () => {
@@ -15,7 +19,7 @@ function Carrito() {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         });
-        console.log("Respuesta del carrito:", respuesta.data); // Depuración de la respuesta
+        // console.log("Respuesta del carrito:", respuesta.data);
         setDetalles(
           respuesta.data.length > 0 ? respuesta.data[0].productos : []
         );
@@ -40,8 +44,8 @@ function Carrito() {
                 },
               }
             );
-            console.log("Producto Detalle:", { ...respuesta.data, ...detalle }); // Depuración de la respuesta
-            return { ...respuesta.data, ...detalle }; // Combina los detalles del producto con los detalles del carrito
+            // console.log("Producto Detalle:", { ...respuesta.data, ...detalle }); 
+            return { ...respuesta.data, ...detalle }; 
           })
         );
         setProductos(detallesProductos);
@@ -82,9 +86,9 @@ function Carrito() {
     }
   }, [productos]);
 
+  // Función para eliminar un producto del carrito
   const eliminarDelCarrito = async (idDetalle) => {
     idDetalle = (idDetalle || "").trim();
-    console.log("que es esto (limpio):", idDetalle);
     try {
       await clienteAxios.delete(`/carrito/${usuario}/${idDetalle}`, {
         headers: {
@@ -98,6 +102,7 @@ function Carrito() {
     }
   };
 
+  // Función para manejar el pago con ePayco
   const handlePagar = () => {
     const handler = window.ePayco.checkout.configure({
       key: import.meta.env.VITE_EPAYCO_PUBLIC_KEY, // Usar la variable de entorno
@@ -109,7 +114,7 @@ function Carrito() {
       name: "Compra en Moradasy",
       description: "Pago de productos en carrito",
       invoice: "ORD-" + Date.now(),
-      amount: subtotal.toFixed(0), // Asegúrate que subtotal es un número y no tiene decimales
+      amount: subtotal.toFixed(0), // Monto total en COP
       currency: "cop",
       tax_base: "0",
       tax: "0",
@@ -120,13 +125,14 @@ function Carrito() {
       external: "false",
       response: "https://tusitio.com/respuesta-epayco", // URL de respuesta
       confirmation: "https://tusitio.com/confirmacion-epayco", // URL de confirmación
-      email_billing: "cliente@correo.com", // Puedes poner el email del usuario logueado
+      email_billing: "cliente@correo.com", 
     };
 
     handler.open(data);
   };
 
 
+  // Decodificar el token para obtener el ID del usuario
   useEffect(() => {
         const token = localStorage.getItem("token");
         if (token) {

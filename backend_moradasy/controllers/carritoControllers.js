@@ -5,8 +5,6 @@ import mongoose from "mongoose";
 const nuevoProducto = async (req, res) => {
   // El idCliente SIEMPRE se toma del token, no del body
   const idCliente = req.usuario.id;
-  console.log("ID Cliente:", idCliente);
-  console.log("Body del request:", req.body);
   const { idProducto, nombreProducto, precioProducto, color, talla, cantidad } = req.body;
 
   // Validación de campos obligatorios
@@ -37,10 +35,8 @@ const nuevoProducto = async (req, res) => {
       );
 
       if (idx > -1) {
-        // Si existe, suma la cantidad
         carrito.productos[idx].cantidadProducto += cantidad || 1;
       } else {
-        // Si no existe, agrega el producto
         carrito.productos.push(nuevoProd);
       }
 
@@ -113,7 +109,7 @@ const borrarProducto = async (req, res) => {
   try {
     const idCliente = req.params.idCliente; // string
     const idDetalle = req.params.idDetalle; // string
-    console.log("idCliente:", idCliente, "idDetalle:", idDetalle);
+    // console.log("idCliente:", idCliente, "idDetalle:", idDetalle);
     const carritoActualizado = await Carrito.updateOne(
       { idCliente, "productos._id": idDetalle },
       { $pull: { productos: { _id: idDetalle } } }

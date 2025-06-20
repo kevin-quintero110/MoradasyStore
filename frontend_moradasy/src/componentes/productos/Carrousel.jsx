@@ -7,8 +7,8 @@ function Carrousel() {
       <div
         id="carouselExampleIndicators"
         className="carousel slide prueba p-4"
-        data-bs-ride="carousel"  // Habilita el auto-slide
-        data-bs-interval="9000"   // Intervalo de 1 segundo entre las transiciones (1000 ms)
+        data-bs-ride="carousel"  
+        data-bs-interval="9000"  
         style={{
           width: "100%", 
           margin: "0 auto",

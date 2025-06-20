@@ -16,7 +16,7 @@ export default function EditarMiCuenta() {
     password: "",
   });
 
-
+  // Efecto para consultar el usuario por ID al cargar el componente
   useEffect(() => {
     const consultarApi = async () => {
       try {
@@ -39,6 +39,7 @@ export default function EditarMiCuenta() {
     consultarApi();
   }, [id]);
 
+  // Función para actualizar el estado del usuario
   const actualizarState = (e) => {
     guardarUsuario({
       ...usuario,
@@ -47,7 +48,7 @@ export default function EditarMiCuenta() {
   };
 
 
-
+// Función para editar el usuario
   const editarUsuario = async (e) => {
     e.preventDefault();
 
@@ -77,6 +78,7 @@ export default function EditarMiCuenta() {
       console.error("Error al editar el usuario:", error);
     }
   }
+  
   return (
     <div className='login'>
       <div className="contenedor-login">
@@ -161,7 +163,7 @@ export default function EditarMiCuenta() {
             />
           </div>
 
-          {/* Sección especial para cambiar contraseña */}
+          
           <div className="mb-4 p-3 rounded" style={{ background: "#f8f9fa", border: "1px solid #e0e0e0" }}>
             <div className="d-flex align-items-center mb-2">
               <i className="bi bi-shield-lock-fill text-danger me-2" style={{ fontSize: 22 }}></i>
