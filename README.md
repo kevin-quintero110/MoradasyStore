@@ -36,6 +36,8 @@ Consulta información detallada de cada producto, selecciona talla, color y cant
 
 ## 🖼️ Mi Cuenta
 ![Captura de pantalla 2025-06-19 202926](https://github.com/user-attachments/assets/3e0352a1-80c0-45bd-b5d4-12d60494f66e)
+![image](https://github.com/user-attachments/assets/f11f9722-b7d5-403b-93ea-c87dd7791494)
+
 
 Consulta y edita tus datos personales, revisa tus pedidos y mantén tu información actualizada.
 
