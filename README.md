@@ -1,4 +1,9 @@
 # MoradasyStore
 Tienda de E-commerce
-![image](https://github.com/user-attachments/assets/6c5e979a-649e-4ab3-b43b-d7c712231f8d)
+
+![Formulario de registro](./imagenes-moradasy/Captura%20de%20pantalla%202025-06-19%20202541.png)
+
+## Presentación del Proyecto
+
+Este proyecto incluye un formulario de registro de usuario que permite ingresar datos personales, valida la información y crea cuentas nuevas de manera sencilla y
 
